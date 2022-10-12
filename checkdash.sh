@@ -10,3 +10,9 @@
         echo "dash dash/sh boolean false" | debconf-set-selections
         DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
     fi
+    
+
+    if ! [ -x "$(command -v unzip)" ]; then
+        echo install  unzip
+        apt install unzip
+    fi

@@ -65,5 +65,11 @@ local_ip='172.18.0.5'
 
     bash datasest.sh $local_user $local_ip
 
+    if ! [ -f 'unip_env.sh' ] 
+    then
+        scp  ${local_user}@${local_ip}:/root/zhujinguo/codes/unip_env.sh /root/zhujinguo/codes/
+    fi
+
+    bash unip_env.sh $local_user $local_ip
 
 

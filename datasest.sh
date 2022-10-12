@@ -16,12 +16,18 @@ fi
 
 # imagenet
 
-if  [ -f '/dev/ImageNet/meta/train.txt' ] 
+if ! [ -d ${dataset_home}/imagenet ] 
 then
-    echo imagenet dataset ready!
+    if  [ -f '/dev/ImageNet/meta/train.txt' ] 
+    then
+        
+        ln -s /dev/ImageNet ${dataset_home}/imagenet
+    else
+        ln -s /root/ImageNet ${dataset_home}/imagenet
+    fi
 else
-    ln -s /root/ImageNet ${dataset_home}/imagenet
-fi
+    echo imagenet dataset ready!
+fi 
 
 
 ## coco 
@@ -38,17 +44,36 @@ then
     scp  ${local_user}@${local_ip}:${dataset_home}/coco/annotations_trainval2017.zip ${dataset_home}/coco/
     scp  ${local_user}@${local_ip}:${dataset_home}/coco/panoptic_annotations_trainval2017.zip ${dataset_home}/coco/
     scp  ${local_user}@${local_ip}:${dataset_home}/coco/stuff_annotations_trainval2017.zip ${dataset_home}/coco/
+    unzip annotations_trainval2017.zip
+    unzip panoptic_annotations_trainval2017.zip
+    unzip stuff_annotations_trainval2017.zip
 else 
-    echo coco dataset ready!
+    echo coco dataset annotations ready!
 fi
 
-if  ! [ -d $dataset_home/coco/annotations ] 
+if  ! [ -d $dataset_home/coco/train2017 ] 
 then
-    scp  ${local_user}@${local_ip}:${dataset_home}/coco/annotations_trainval2017.zip ${dataset_home}/coco/
-    scp  ${local_user}@${local_ip}:${dataset_home}/coco/panoptic_annotations_trainval2017.zip ${dataset_home}/coco/
-    scp  ${local_user}@${local_ip}:${dataset_home}/coco/stuff_annotations_trainval2017.zip ${dataset_home}/coco/
+    scp  ${local_user}@${local_ip}:${dataset_home}/coco/train2017.zip ${dataset_home}/coco/
+    unzip train2017.zip
 else 
-    echo coco dataset ready!
+    echo coco train 2017 ready!
 fi
+
+if  ! [ -d $dataset_home/coco/val2017 ] 
+then
+    scp  ${local_user}@${local_ip}:${dataset_home}/coco/val2017.zip ${dataset_home}/coco/
+    unzip val2017.zip
+else 
+    echo coco val 2017 ready!
+fi
+
+if  ! [ -d $dataset_home/coco/test2017 ] 
+then
+    scp  ${local_user}@${local_ip}:${dataset_home}/coco/test2017.zip ${dataset_home}/coco/
+    unzip test2017.zip
+else 
+    echo coco test_2017 ready!
+fi
+
 
 
